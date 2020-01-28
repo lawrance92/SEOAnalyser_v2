@@ -1,0 +1,46 @@
+﻿@using SeoAnalysis2.Models;
+@model SeoAnalysis2.Models.HomeModel
+@{
+    ViewBag.Title = "SEO Analysis";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>SEO ANALYSIS</h2>
+        @*assign form to call the URL from text box to controller*@
+        @using (Html.BeginForm("CheckURL", "Home", FormMethod.Post))
+        {
+            @Html.TextBoxFor(model => model.URL)
+            @Html.ValidationMessageFor(model => model.URL)
+            <button type="submit" class="btn btn-default">Check URL</button>
+        }
+        @try
+        {
+            @*Check whther the website is in use and show the table of list*@
+            if (Model.Exist == true)
+            {
+                <p>Url Are Valid</p>
+                <table style="width:100%">
+                    <tr>
+                        <th>Stop Words</th>
+                    </tr>
+                    @foreach (var words in Model.words)
+                    {
+                        <tr>
+                            <td>@words</td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                @*Message to show the website is invalid*@
+                <p>Url Are Invalid Please try different Url</p>
+            }
+        }
+        catch (Exception)
+        {
+            <p>Url Are Invalid Please try different Url</p>
+        }
+    </div>
+</div>
